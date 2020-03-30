@@ -19,6 +19,21 @@ Configuration
 
 None for now.
 
+Example usage
+-------------
+
+Update the repository at the root of the site:
+
+```
+sudo -u aegir /usr/local/bin/aegir-helpers git-pull foo.example.org
+```
+
+Update a specific sub-directory:
+
+```
+sudo -u aegir /usr/local/bin/aegir-helpers git-pull foo.example.org modules/extensions
+```
+
 Rebuild the phar
 ----------------
 
