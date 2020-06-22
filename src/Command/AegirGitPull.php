@@ -21,6 +21,11 @@ class AegirGitPull extends Command
         $this->setName('git-pull')
             ->setDescription('Runs a git pull on a site (and optional subdirectory)')
             ->setHelp('Runs a git pull on a directory (and optional subdirectory)')
+            ->addOption('flush-d7', null, InputOption::VALUE_NONE, 'Flush Drupal7 caches')
+            ->addOption('flush-d8', null, InputOption::VALUE_NONE, 'Flush Drupal8 caches')
+            ->addOption('flush-wp', null, InputOption::VALUE_NONE, 'Flush WordPress caches')
+            ->addOption('flush-dcivicrm', null, InputOption::VALUE_NONE, 'Flush CiviCRM caches on Drupal (7-8)')
+            ->addOption('flush-wpcivicrm', null, InputOption::VALUE_NONE, 'Flush CiviCRM caches on WordPress')
             ->addArgument('site', InputArgument::REQUIRED, 'The name of the site (fqdn).')
             ->addArgument('subdir', InputArgument::OPTIONAL, 'The sub-directory where the git repository is located (relative to the site root).');
     }
@@ -75,6 +80,41 @@ class AegirGitPull extends Command
 
         $this->logger->info('Running git pull...');
         system("git pull origin master");
+
+        if ($input->getOption('flush-d7'))
+        {
+            $this->logger->info('Flushing the Drupal7 cache...');
+            $alias = escapeshellcmd($site);
+            system("drush @$alias cc all");
+        }
+
+        if ($input->getOption('flush-d8'))
+        {
+            $this->logger->info('Flushing the Drupal8 cache...');
+            $alias = escapeshellcmd($site);
+            system("drush @$alias cr");
+        }
+
+        if ($input->getOption('flush-wp'))
+        {
+            $this->logger->info('Flushing the WordPress cache...');
+            $alias = escapeshellcmd($site);
+            system("drush @$alias wp cache flush");
+        }
+
+        if ($input->getOption('flush-dcivicrm'))
+        {
+            $this->logger->info('Flushing the CiviCRM cache...');
+            $alias = escapeshellcmd($site);
+            system("drush @$alias cvapi system.flush");
+        }
+
+        if ($input->getOption('flush-wpcivicrm'))
+        {
+            $this->logger->info('Flushing the CiviCRM cache...');
+            $alias = escapeshellcmd($site);
+            system("drush @$alias wp civicrm api system.flush");
+        }
 
         return 0;
     }
