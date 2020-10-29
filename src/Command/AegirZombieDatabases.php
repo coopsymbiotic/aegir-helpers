@@ -113,7 +113,7 @@ class AegirZombieDatabases extends Command
                 if (!in_array($record['Database'], $known_databases)) {
                     $zombie_db = $record['Database'];
                     $unknown_databases[] = $zombie_db;
-                    $this->logger->warning('Found unknown database: '.$zombie_db;
+                    $this->logger->warning('Found unknown database: '.$zombie_db);
 
                     if ($input->getOption('delete-all') || $input->getArgument('delete') == $zombie_db) {
                         $mysqli->query('DROP DATABASE '.$zombie_db);
