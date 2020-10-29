@@ -22,14 +22,36 @@ None for now.
 Update the repository at the root of the site:
 
 ```
-sudo -u aegir /usr/local/bin/aegir-helpers git-pull foo.example.org
+sudo -u aegir aegir-helpers git-pull foo.example.org
 ```
 
 Update a specific sub-directory:
 
 ```
-sudo -u aegir /usr/local/bin/aegir-helpers git-pull foo.example.org modules/extensions
+sudo -u aegir aegir-helpers git-pull foo.example.org modules/extensions
 ```
+
+Find zombie databases (run as the 'aegir' user):
+
+```
+aegir-helpers zombie-databases
+```
+
+Delete a specific zombie database:
+
+```
+aegir-helpers zombie-databases myzombie
+```
+
+Delete all zombie databases:
+
+```
+aegir-helpers zombie-databases --delete-all
+```
+
+Please be careful before using this option, and consider running it first to
+list zombie databases. If you accidentally delete a database, you will have
+to (obviously) restore from your backups.
 
 ## Rebuild the phar
 
