@@ -96,7 +96,7 @@ class AegirZombieDatabases extends Command
                 continue;
             }
 
-            $mysqli = new mysqli($host, $username, $password);
+            $mysqli = new \mysqli($host, $username, $password);
 
             if ($mysqli->connect_error) {
                 $this->logger->error('Failed to connect ('.$mysqli->connect_errno.') '.$mysqli->connect_error);
