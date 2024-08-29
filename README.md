@@ -74,4 +74,8 @@ aegir-helpers check-grants test2exampleorg
 
 ## Rebuild the phar
 
-Run: `mkdir -p build; php compile.php`
+Bump the version in `console.php`, then run:
+
+```
+mkdir -p build; php compile.php
+```
