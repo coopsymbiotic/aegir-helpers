@@ -53,6 +53,25 @@ Please be careful before using this option, and consider running it first to
 list zombie databases. If you accidentally delete a database, you will have
 to (obviously) restore from your backups.
 
+Find leftover zombie database grants:
+
+```
+aegir-helpers check-grants
+```
+
+Find and filter using a username pattern, optionally delete:
+
+```
+aegir-helpers check-grants --like=test2%
+aegir-helpers check-grants --like=test2% --delete-all
+```
+
+Delete a specific zombie database grant:
+
+```
+aegir-helpers check-grants test2exampleorg
+```
+
 ## Rebuild the phar
 
 Run: `mkdir -p build; php compile.php`
