@@ -88,7 +88,6 @@ class AegirZombieGrants extends Command
         }
 
         foreach ($db_servers as $dsn) {
-            $unknown_grants = [];
             $username = null;
             $password = null;
             $host = null;
@@ -116,23 +115,38 @@ class AegirZombieGrants extends Command
               $like = " WHERE User LIKE '$like'";
             }
 
+            // Check the user table
             $result = $mysqli->query('SELECT Host, User FROM user' . $like);
 
-            if (empty($result)) {
-              $mysqli->close();
-              return 0;
+            if (!empty($result)) {
+                foreach ($result as $record) {
+                    if (empty($known_grants[$record['User']])) {
+                        $zombie_grant = $record['User'];
+                        $this->logger->warning('Found unknown user record: ' . $zombie_grant);
+
+                        if ($input->getOption('delete-all') || $input->getArgument('delete') == $zombie_grant) {
+                            $mysqli->query('DELETE FROM user WHERE User = "' . $zombie_grant . '"');
+                            $this->logger->warning('Deleted user record for User: ' . $zombie_grant);
+                            $do_flush_privileges = true;
+                        }
+                    }
+                }
             }
 
-            foreach ($result as $record) {
-                if (empty($known_grants[$record['User']])) {
-                    $zombie_grant = $record['User'];
-                    $unknown_grants[] = $zombie_grant;
-                    $this->logger->warning('Found unknown grant: '.$zombie_grant);
+            // Check the db table
+            $result = $mysqli->query('SELECT Host, User FROM db' . $like);
 
-                    if ($input->getOption('delete-all') || $input->getArgument('delete') == $zombie_grant) {
-                       $mysqli->query('DELETE FROM user WHERE User = "' . $zombie_grant . '"');
-                       $this->logger->warning('Deleted grant for User: ' . $zombie_grant);
-                       $do_flush_privileges = true;
+            if (!empty($result)) {
+                foreach ($result as $record) {
+                    if (empty($known_grants[$record['User']])) {
+                        $zombie_grant = $record['User'];
+                        $this->logger->warning('Found unknown db record: ' . $zombie_grant);
+
+                        if ($input->getOption('delete-all') || $input->getArgument('delete') == $zombie_grant) {
+                            $mysqli->query('DELETE FROM db WHERE User = "' . $zombie_grant . '"');
+                            $this->logger->warning('Deleted db record for User: ' . $zombie_grant);
+                            $do_flush_privileges = true;
+                        }
                     }
                 }
             }
