@@ -20,7 +20,8 @@ class AegirZombieDatabases extends Command
 
     public function configure()
     {
-        $this->setName('zombie-databases')
+        $this->setName('db:cleanup')
+          ->setAliases(['zombie-databases'])
           ->setDescription(
             'Identifies leftover databases from failed migrate/clone tasks (and optionally delete them)'
           )

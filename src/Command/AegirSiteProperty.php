@@ -18,7 +18,8 @@ class AegirSiteProperty extends Command
 
     public function configure()
     {
-        $this->setName('site-property')
+        $this->setName('site:property')
+            ->setAliases(['site-property'])
             ->setDescription('Returns a specific property from the drush alias file')
             ->setHelp('Returns a specific property from the drush alias file')
             ->addArgument('site', InputArgument::REQUIRED, 'The name of the site (fqdn).')

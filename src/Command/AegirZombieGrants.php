@@ -20,7 +20,8 @@ class AegirZombieGrants extends Command
 
     public function configure()
     {
-        $this->setName('check-grants')
+        $this->setName('grant:cleanup')
+          ->setAliases(['check-grants'])
           ->setDescription(
             'Identifies leftover database grants from failed migrate/clone tasks (and optionally delete them)'
           )

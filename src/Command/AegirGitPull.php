@@ -18,7 +18,8 @@ class AegirGitPull extends Command
 
     public function configure()
     {
-        $this->setName('git-pull')
+        $this->setName('git:pull')
+            ->setAliases(['git-pull'])
             ->setDescription('Runs a git pull on a site (and optional subdirectory)')
             ->setHelp('Runs a git pull on a directory (and optional subdirectory)')
             ->addOption('flush-d7', null, InputOption::VALUE_NONE, 'Flush Drupal7 caches')
