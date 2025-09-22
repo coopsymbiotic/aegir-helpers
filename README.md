@@ -7,7 +7,7 @@ A set of helpers for Aegir:
 
 ## Requirements
 
-* PHP >= 7.2 (developed with PHP 7.3)
+* PHP >= 8.0 (developed with PHP 8.2)
 
 ## Installation
 
@@ -34,19 +34,21 @@ sudo -u aegir aegir-helpers git-pull foo.example.org modules/extensions
 Find zombie databases (run as the 'aegir' user):
 
 ```
+aegir-helpers db:cleanup
+# previously known as
 aegir-helpers zombie-databases
 ```
 
 Delete a specific zombie database:
 
 ```
-aegir-helpers zombie-databases myzombie
+aegir-helpers db:cleanup myzombie
 ```
 
 Delete all zombie databases:
 
 ```
-aegir-helpers zombie-databases --delete-all
+aegir-helpers db:cleanup --delete-all
 ```
 
 Please be careful before using this option, and consider running it first to
@@ -56,20 +58,32 @@ to (obviously) restore from your backups.
 Find leftover zombie database grants:
 
 ```
-aegir-helpers check-grants
+aegir-helpers grant:cleanup
 ```
 
 Find and filter using a username pattern, optionally delete:
 
 ```
-aegir-helpers check-grants --like=test2%
-aegir-helpers check-grants --like=test2% --delete-all
+aegir-helpers grant:cleanup --like=test2%
+aegir-helpers grant:cleanup --like=test2% --delete-all
 ```
 
 Delete a specific zombie database grant:
 
 ```
-aegir-helpers check-grants test2exampleorg
+aegir-helpers grant:cleanup test2exampleorg
+```
+
+Cleanup CiviCRM databases:
+
+```
+aegir-helpers site:cleanup crm.example.org
+```
+
+Generate stats for the aegir-weekly script:
+
+```
+aegir-helpers site:stats crm.example.org
 ```
 
 ## Rebuild the phar
