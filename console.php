@@ -10,4 +10,6 @@ $app->add(new \Console\Command\AegirGitPull());
 $app->add(new \Console\Command\AegirZombieDatabases());
 $app->add(new \Console\Command\AegirZombieGrants());
 $app->add(new \Console\Command\AegirSiteProperty());
+$app->add(new \Console\Command\AegirSiteCleanup());
+$app->add(new \Console\Command\AegirSiteStats());
 $app->run();
