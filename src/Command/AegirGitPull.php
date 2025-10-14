@@ -91,35 +91,28 @@ class AegirGitPull extends Command
         {
             $this->logger->info('Flushing the Drupal7 cache...');
             $alias = escapeshellcmd($site);
-            system("drush @$alias cc all");
+            system("drush cc all");
         }
 
-        if ($input->getOption('flush-d8'))
+        if ($input->getOption('flush-drupal'))
         {
-            $this->logger->info('Flushing the Drupal8 cache...');
+            $this->logger->info('Flushing the Drupal 10+ cache...');
             $alias = escapeshellcmd($site);
-            system("drush @$alias cr");
+            system("drush -l " . escapeshellarg($site) . " cr");
         }
 
         if ($input->getOption('flush-wp'))
         {
             $this->logger->info('Flushing the WordPress cache...');
             $alias = escapeshellcmd($site);
-            system("drush @$alias wp cache flush");
+            system("wp cache flush");
         }
 
-        if ($input->getOption('flush-dcivicrm'))
+        if ($input->getOption('flush-civicrm'))
         {
             $this->logger->info('Flushing the CiviCRM cache...');
             $alias = escapeshellcmd($site);
-            system("drush @$alias cvapi system.flush");
-        }
-
-        if ($input->getOption('flush-wpcivicrm'))
-        {
-            $this->logger->info('Flushing the CiviCRM cache...');
-            $alias = escapeshellcmd($site);
-            system("drush @$alias wp civicrm api system.flush");
+            system("cv flush");
         }
 
         return 0;
