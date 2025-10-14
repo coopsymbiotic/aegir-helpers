@@ -23,10 +23,9 @@ class AegirGitPull extends Command
             ->setDescription('Runs a git pull on a site (and optional subdirectory)')
             ->setHelp('Runs a git pull on a directory (and optional subdirectory)')
             ->addOption('flush-d7', null, InputOption::VALUE_NONE, 'Flush Drupal7 caches')
-            ->addOption('flush-d8', null, InputOption::VALUE_NONE, 'Flush Drupal8 caches')
+            ->addOption('flush-drupal', null, InputOption::VALUE_NONE, 'Flush Drupal10+ caches')
             ->addOption('flush-wp', null, InputOption::VALUE_NONE, 'Flush WordPress caches')
-            ->addOption('flush-dcivicrm', null, InputOption::VALUE_NONE, 'Flush CiviCRM caches on Drupal (7-8)')
-            ->addOption('flush-wpcivicrm', null, InputOption::VALUE_NONE, 'Flush CiviCRM caches on WordPress')
+            ->addOption('flush-civicrm', null, InputOption::VALUE_NONE, 'Flush CiviCRM caches')
             ->addArgument('site', InputArgument::REQUIRED, 'The name of the site (fqdn).')
             ->addArgument('subdir', InputArgument::OPTIONAL, 'The sub-directory where the git repository is located (relative to the site root).');
     }
