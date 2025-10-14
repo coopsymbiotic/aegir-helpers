@@ -42,6 +42,11 @@ class AegirGitPull extends Command
 
         if (!file_exists($aliasfile))
         {
+            $aliasfile = getenv('HOME') . '/.aegir/site/' . $site . '.php';
+        }
+
+        if (!file_exists($aliasfile))
+        {
             $this->logger->error('Site does not exist or Aegir alias file not readable. Is this command running as sudo-aegir?');
             exit(1);
         }
