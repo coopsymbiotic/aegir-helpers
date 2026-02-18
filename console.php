@@ -12,4 +12,5 @@ $app->add(new \Console\Command\AegirZombieGrants());
 $app->add(new \Console\Command\AegirSiteProperty());
 $app->add(new \Console\Command\AegirSiteCleanup());
 $app->add(new \Console\Command\AegirSiteStats());
+$app->add(new \Console\Command\AegirOneTimeLogin());
 $app->run();
