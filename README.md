@@ -92,4 +92,5 @@ Bump the version in `console.php`, then run:
 
 ```
 mkdir -p build; php compile.php
+mv build/aegir-helpers.phar build/aegir-helpers
 ```
