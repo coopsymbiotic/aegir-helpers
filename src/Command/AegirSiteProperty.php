@@ -37,7 +37,7 @@ class AegirSiteProperty extends Command
 
         if (!file_exists($aliasfile))
         {
-            $this->logger->error('Site does not exist or Aegir alias file not readable. Is this command running as sudo-aegir?');
+            $this->logger->error('Site does not exist or Aegir alias file not readable. Is this command running as aegir?');
             exit(1);
         }
 
