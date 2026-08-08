@@ -14,4 +14,5 @@ $app->add(new \Console\Command\AegirSiteCleanup());
 $app->add(new \Console\Command\AegirSiteStats());
 $app->add(new \Console\Command\AegirOneTimeLogin());
 $app->add(new \Console\Command\AegirFixPermissions());
+$app->add(new \Console\Command\AegirInventory());
 $app->run();
