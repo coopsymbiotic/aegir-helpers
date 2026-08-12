@@ -36,7 +36,8 @@ class AegirSiteStats extends Command
         $line_prefix = 'aegir,' . $site . ',';
 
         try {
-            echo $line_prefix . 'Users:' . $db->query('SELECT count(*) as x FROM users WHERE uid > 1')->fetch_assoc()['x'] . "\n";
+            // Counting from uf_match is most reliable between Standalone/WP/Drupal
+            echo $line_prefix . 'Users:' . $db->query('SELECT count(*) as x FROM civicrm_uf_match')->fetch_assoc()['x'] . "\n";
             echo $line_prefix . 'CiviContact:' . $db->query('SELECT count(*) as x FROM civicrm_contact WHERE is_deleted = 0')->fetch_assoc()['x'] . "\n";
             echo $line_prefix . 'CiviActivity:' . $db->query('SELECT count(*) as x FROM civicrm_activity WHERE is_test = 0 AND is_deleted = 0 AND is_current_revision = 1')->fetch_assoc()['x'] . "\n";
             echo $line_prefix . 'CiviContribute:' . $db->query('SELECT count(*) as x FROM civicrm_contribution WHERE is_test = 0')->fetch_assoc()['x'] . "\n";
