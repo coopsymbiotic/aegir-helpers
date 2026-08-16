@@ -53,9 +53,13 @@ class AegirSiteStats extends Command
             return 0;
         }
 
-        // Fetch the payment processors used
+        // Fetch the configured payment processors
         $processors = $this->get_payment_processors($db);
         echo $line_prefix . 'CiviPaymentProcessors:' . implode('+', $processors) . "\n";
+
+        // Fetch enabled extensions
+        $extensions = $this->get_civicrm_extensions($db);
+        echo $line_prefix . 'CiviExtensions:' . implode('+', $extensions) . "\n";
 
         // Fetch the available languages
         // Depending on if multilingual or not, one of these should be valid
@@ -90,6 +94,18 @@ class AegirSiteStats extends Command
         return $processors;
     }
 
+    private function get_civicrm_extensions($db)
+    {
+        $list = [];
+        $result = $db->query("SELECT file FROM civicrm_extension WHERE is_active = 1");
+
+        while ($record = $result->fetch_assoc()) {
+            $list[] = $record['file'];
+        }
+
+        return $list;
+    }
+
     /**
      * Returns the last login date/time.
      */
@@ -98,21 +114,28 @@ class AegirSiteStats extends Command
         $cms = $this->get_cms($db);
 
         try {
-            if ($cms == 'Drupal9' || $cms == 'Drupal8') {
-                $result = $db->query('SELECT date(from_unixtime(access)) as t FROM users_field_data WHERE uid != 1 ORDER BY access DESC LIMIT 1');
-                if ($result) {
-                    $record = $result->fetch_assoc();
-                    return $record['t'];
-                }
-            }
-            elseif ($cms == 'Drupal7') {
+            if ($cms == 'Drupal7') {
                 $result = $db->query('SELECT date(from_unixtime(access)) as t FROM users where uid != 1 ORDER BY access DESC LIMIT 1');
                 if ($result) {
                     $record = $result->fetch_assoc();
                     return $record['t'];
                 }
             }
+            elseif (substr($cms, 6) == 'Drupal') {
+                $result = $db->query('SELECT date(from_unixtime(access)) as t FROM users_field_data WHERE uid != 1 ORDER BY access DESC LIMIT 1');
+                if ($result) {
+                    $record = $result->fetch_assoc();
+                    return $record['t'];
+                }
+            }
             // @todo WordPress
+            elseif ($cms == 'WordPress') {
+                $result = $db->query('SELECT date(from_unixtime(meta_value)) as t FROM wp_usermeta WHERE user_id != 1 AND meta_key IN ("wfls-last-login", "wp-last-login") ORDER BY meta_value DESC LIMIT 1');
+                if ($result) {
+                    $record = $result->fetch_assoc();
+                    return $record['t'] ?? '';
+                }
+            }
         }
         catch (Exception $e) {
             // TODO
